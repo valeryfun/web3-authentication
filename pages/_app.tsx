@@ -1,5 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { ThirdwebProvider } from '@3rdweb/react'
+import { ChakraProvider } from '@chakra-ui/react'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	// ethereum chain ids of the chains supported
@@ -10,7 +12,22 @@ function MyApp({ Component, pageProps }: AppProps) {
 	// Polygon Mumbai Test Network - 80001 (MATIC)
 	const supportedChainIds = [1, 3, 4, 42, 80001]
 
-	return <Component {...pageProps} />
+	// connectors supported
+	// metamask: injected
+	const connectors = {
+		injected: {}
+	}
+
+	return (
+		<ThirdwebProvider
+			connectors={connectors}
+			supportedChainIds={supportedChainIds}
+		>
+			<ChakraProvider>
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</ThirdwebProvider>
+	)
 }
 
 export default MyApp
